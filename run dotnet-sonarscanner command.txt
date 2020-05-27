@@ -1,0 +1,34 @@
+banda-space-game-web
+
+sonar-scanner \
+  -D "sonar.organization=banda-space-game-web" \
+  -D "sonar.projectKey=bandax_mslearn-tailspin-spacegame-web" \
+  -D "sonar.sources=." \
+  -D "sonar.host.url=https://sonarcloud.io" \
+  -D "sonar.login=6554af297d37ef9b94615fca58b61ecbc7722072"
+
+
+# Run from bash
+MSYS2_ARG_CONV_EXCL="*" dotnet-sonarscanner begin \
+  /k:"$SONAR_PROJECT_KEY" \
+  /d:sonar.host.url="https://sonarcloud.io" \
+  /d:sonar.login="$SONAR_LOGIN" \
+  /d:sonar.cs.opencover.reportsPaths="./Tailspin.SpaceGame.Web.Tests/TestResults/Coverage/coverage.opencover.xml" \
+  /d:sonar.exclusions="**/wwwroot/lib/**/*" \
+  /o:"$SONAR_ORGANIZATION"
+  
+MSYS2_ARG_CONV_EXCL="*" dotnet-sonarscanner end /d:sonar.login="$SONAR_LOGIN"
+
+
+# Run from powershell 
+dotnet sonarscanner begin /k:"bandax_mslearn-tailspin-spacegame-web"   /d:sonar.host.url="https://sonarcloud.io"   /d:sonar.login="6554af297d37ef9b94615fca58b61ecbc7722072"   /d:sonar.cs.opencover.reportsPaths="./Tailspin.SpaceGame.Web.Tests/TestResults/Coverage/coverage.opencover.xml"   /d:sonar.exclusions="**/wwwroot/lib/**/*"   /o:"banda-space-game-web"
+
+
+dotnet test --no-build \
+  --configuration Release \
+  /p:CollectCoverage=true \
+  /p:CoverletOutputFormat="cobertura%2copencover" \
+  /p:CoverletOutput=./TestResults/Coverage/
+
+
+dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat:"cobertura%2copencover" /p:CoverletOutput:./TestResults/Coverage/
